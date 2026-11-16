@@ -1,0 +1,57 @@
+{
+  "extends": "athom/homey-app",
+  "rules": {
+    "indent": "off",
+    "strict": "off",
+    "global-strict": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "node/no-missing-import": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "import/prefer-default-export": "off",
+    "camelcase": "off",
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "object-curly-newline": "off",
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "newline-per-chained-call": "off",
+    "max-len": [
+      "warn",
+      {
+        "code": 200
+      }
+    ],
+    "no-useless-constructor": "off",
+    "no-empty-function": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json"
+  },
+  "overrides": [
+    {
+      "files": [
+        "tools/**/*.ts",
+        "tests/**/*.ts"
+      ],
+      "rules": {
+        "no-console": "off",
+        "no-process-exit": "off",
+        "import/no-extraneous-dependencies": "off",
+        "node/no-unpublished-require": "off",
+        "node/no-unpublished-import": "off",
+        "homey-app/global-timers": "off",
+        "max-classes-per-file": "off",
+        "no-await-in-loop": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "off"
+      }
+    }
+  ]
+}

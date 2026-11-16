@@ -1,0 +1,11 @@
+{
+    "type": "boolean",
+    "title": {
+        "en": "Chime",
+        "nl": "Gong"
+    },
+    "getable": true,
+    "setable": true,
+    "uiComponent": "toggle",
+    "insights": false
+}

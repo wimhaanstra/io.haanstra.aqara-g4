@@ -1,0 +1,51 @@
+{
+  "id": "com.sortedbits.aqarag4",
+  "version": "1.0.0",
+  "compatibility": ">=12.12.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Aqara G4 Doorbell",
+    "nl": "Aqara G4 Deurbel"
+  },
+  "description": {
+    "en": "See who's at the door, the moment they ring",
+    "nl": "Zie wie er aanbelt, op het moment dat het gebeurt"
+  },
+  "tags": {
+    "en": [
+      "aqara",
+      "g4",
+      "doorbell",
+      "video doorbell",
+      "camera",
+      "homekit",
+      "intercom"
+    ],
+    "nl": [
+      "aqara",
+      "g4",
+      "deurbel",
+      "videodeurbel",
+      "camera",
+      "homekit",
+      "intercom"
+    ]
+  },
+  "category": [
+    "security"
+  ],
+  "brandColor": "#7A5534",
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Wim Haanstra",
+    "email": "wim@x256.nl"
+  }
+}

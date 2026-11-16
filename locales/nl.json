@@ -1,0 +1,30 @@
+{
+    "pair": {
+        "title": "Voeg je Aqara G4 toe",
+        "intro": "Homey verbindt via HomeKit op je lokale netwerk met de deurbel. De deurbel kan maar met één HomeKit-controller verbonden zijn, dus verwijder hem eerst uit Apple Woning of de HomeKit Controller-app.",
+        "choose_device": "1. Kies de deurbel",
+        "no_devices": "Nog geen HomeKit-deurbel gevonden. Controleer of hij stroom heeft en op hetzelfde netwerk zit als Homey. Deze lijst ververst vanzelf.",
+        "device_paired": "Al verbonden met een andere HomeKit-controller. Verwijder hem daar, of reset de HomeKit-koppeling in de Aqara Home-app.",
+        "setup_code": "2. Voer de HomeKit-instelcode in",
+        "type_code": "Code typen",
+        "scan_qr": "QR-code scannen",
+        "code_hint": "De code van 8 cijfers op de deurbel, achter in de handleiding of op de doos.",
+        "scan_hint": "Richt de camera op de HomeKit-QR-code. Opent de camera niet, maak dan een foto van de code.",
+        "photo": "Maak of kies een foto",
+        "qr_ok": "QR-code gelezen. De bijbehorende deurbel is geselecteerd.",
+        "qr_not_found": "Geen QR-code gevonden in die foto. Probeer het dichterbij en met goed licht.",
+        "not_homekit_qr": "Dat is geen HomeKit-QR-code. Zoek de code naast het HomeKit-logo.",
+        "pair": "Verbinden",
+        "pairing": "Verbinden met de deurbel… dit kan tot 30 seconden duren.",
+        "not_found": "De deurbel is niet meer zichtbaar op het netwerk. Controleer of hij stroom heeft en probeer het opnieuw.",
+        "already_paired": "Deze deurbel is al verbonden met een andere HomeKit-controller. Verwijder hem daar eerst, of reset de HomeKit-koppeling in de Aqara Home-app.",
+        "wrong_code": "De instelcode klopt niet. Controleer de code en probeer het opnieuw."
+    },
+    "device": {
+        "live": "Live",
+        "snapshot": "Momentopname",
+        "unreachable": "De deurbel is niet bereikbaar. Controleer de stroom en wifi.",
+        "no_camera": "Deze deurbel biedt geen camerabeeld.",
+        "setting_unavailable": "Deze deurbel biedt die instelling niet, of is nog niet verbonden."
+    }
+}

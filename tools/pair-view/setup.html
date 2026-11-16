@@ -1,0 +1,289 @@
+<!--
+    Source for drivers/doorbell/pair/setup.html.
+    Do not edit the generated file: edit this one and run `noodge app:pair-view`,
+    which inlines jsQR so QR scanning works without internet access.
+-->
+<style>
+    .g4-step { margin-bottom: 1.25em; }
+    .g4-list { list-style: none; margin: 0; padding: 0; }
+    .g4-item {
+        display: flex; align-items: center; gap: 0.75em;
+        padding: 0.75em; margin-bottom: 0.5em;
+        border: 2px solid var(--homey-color-border, #ddd); border-radius: 10px; cursor: pointer;
+    }
+    .g4-item.selected { border-color: var(--homey-color-highlight, #00c139); }
+    .g4-item.disabled { opacity: 0.5; cursor: default; }
+    .g4-item small { display: block; opacity: 0.7; }
+    .g4-code {
+        font-size: 1.6em; letter-spacing: 0.15em; text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .g4-tabs { display: flex; gap: 0.5em; margin-bottom: 0.75em; }
+    .g4-tabs button { flex: 1; }
+    .g4-video { width: 100%; border-radius: 10px; background: #000; aspect-ratio: 4 / 3; object-fit: cover; }
+    .g4-hidden { display: none !important; }
+    .g4-message { min-height: 1.4em; margin: 0.5em 0; }
+    .g4-message.error { color: var(--homey-color-danger, #d40000); }
+    .g4-message.ok { color: var(--homey-color-success, #00a12e); }
+</style>
+
+<header class="homey-header">
+    <h1 class="homey-title" data-i18n="pair.title"></h1>
+    <p class="homey-subtitle" data-i18n="pair.intro"></p>
+</header>
+
+<div class="g4-step">
+    <h2 class="homey-form-legend" data-i18n="pair.choose_device"></h2>
+    <ul id="devices" class="g4-list"></ul>
+    <p id="no-devices" class="g4-hidden" data-i18n="pair.no_devices"></p>
+</div>
+
+<div class="g4-step">
+    <h2 class="homey-form-legend" data-i18n="pair.setup_code"></h2>
+    <div class="g4-tabs">
+        <button id="tab-type" class="homey-button-primary-full" data-i18n="pair.type_code"></button>
+        <button id="tab-scan" class="homey-button-secondary-full" data-i18n="pair.scan_qr"></button>
+    </div>
+
+    <div id="panel-type">
+        <input id="code" class="homey-form-input g4-code" inputmode="numeric" autocomplete="off" placeholder="123-45-678" maxlength="10" />
+        <p class="homey-form-helper" data-i18n="pair.code_hint"></p>
+    </div>
+
+    <div id="panel-scan" class="g4-hidden">
+        <video id="camera" class="g4-video g4-hidden" playsinline muted></video>
+        <canvas id="frame" class="g4-hidden"></canvas>
+        <p class="homey-form-helper" data-i18n="pair.scan_hint"></p>
+        <label class="homey-button-secondary-full" for="photo" data-i18n="pair.photo"></label>
+        <input id="photo" class="g4-hidden" type="file" accept="image/*" capture="environment" />
+        <input id="qrtext" class="homey-form-input" autocomplete="off" placeholder="X-HM://..." style="margin-top: 0.75em" />
+    </div>
+
+    <p id="message" class="g4-message"></p>
+</div>
+
+<button id="pair" class="homey-button-primary-full" data-i18n="pair.pair" disabled></button>
+
+<script>
+/*__JSQR__*/
+</script>
+<script>
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const t = (key) => Homey.__(key);
+
+    let devices = [];
+    let selectedId = null;
+    let setupCode = null;
+    let scanning = false;
+    let stream = null;
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => (el.textContent = t(el.dataset.i18n)));
+
+    function message(text, kind) {
+        $('message').textContent = text || '';
+        $('message').className = 'g4-message' + (kind ? ' ' + kind : '');
+    }
+
+    function updateButton() {
+        $('pair').disabled = !(selectedId && setupCode);
+    }
+
+    function renderDevices() {
+        const list = $('devices');
+        list.innerHTML = '';
+        $('no-devices').classList.toggle('g4-hidden', devices.length > 0);
+        for (const device of devices) {
+            const li = document.createElement('li');
+            li.className = 'g4-item' + (device.id === selectedId ? ' selected' : '') + (device.paired ? ' disabled' : '');
+            const label = document.createElement('div');
+            const name = document.createElement('strong');
+            name.textContent = device.name;
+            const detail = document.createElement('small');
+            detail.textContent = device.paired ? t('pair.device_paired') : [device.model, device.address].filter(Boolean).join(' \u00b7 ');
+            label.append(name, detail);
+            li.append(label);
+            if (!device.paired) {
+                li.addEventListener('click', () => {
+                    selectedId = device.id;
+                    renderDevices();
+                    updateButton();
+                });
+            }
+            list.append(li);
+        }
+    }
+
+    async function loadDevices() {
+        try {
+            devices = await Homey.emit('list');
+            const unpaired = devices.filter((d) => !d.paired);
+            if (!selectedId && unpaired.length === 1) selectedId = unpaired[0].id;
+            renderDevices();
+            updateButton();
+        } catch (error) {
+            message(error.message || String(error), 'error');
+        }
+    }
+
+    // ---- typed code ----
+
+    $('code').addEventListener('input', () => {
+        const digits = $('code').value.replace(/\D/g, '').slice(0, 8);
+        let formatted = digits.slice(0, 3);
+        if (digits.length > 3) formatted += '-' + digits.slice(3, 5);
+        if (digits.length > 5) formatted += '-' + digits.slice(5, 8);
+        $('code').value = formatted;
+        setupCode = null;
+        message('');
+        if (digits.length === 8) acceptInput(formatted);
+        updateButton();
+    });
+
+    async function acceptInput(text) {
+        try {
+            const result = await Homey.emit('decode', { text });
+            setupCode = result.setupCode;
+            $('code').value = result.setupCode;
+            if (result.matchId) {
+                selectedId = result.matchId;
+                renderDevices();
+            }
+            message(result.setupId ? t('pair.qr_ok') : '', 'ok');
+        } catch (error) {
+            setupCode = null;
+            message(error.message || String(error), 'error');
+        }
+        updateButton();
+    }
+
+    // ---- QR ----
+
+    function showTab(scan) {
+        $('panel-type').classList.toggle('g4-hidden', scan);
+        $('panel-scan').classList.toggle('g4-hidden', !scan);
+        $('tab-type').className = scan ? 'homey-button-secondary-full' : 'homey-button-primary-full';
+        $('tab-scan').className = scan ? 'homey-button-primary-full' : 'homey-button-secondary-full';
+        if (scan) startCamera();
+        else stopCamera();
+    }
+
+    $('tab-type').addEventListener('click', () => showTab(false));
+    $('tab-scan').addEventListener('click', () => showTab(true));
+
+    function decodePixels(canvas) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const found = window.jsQR && window.jsQR(data.data, data.width, data.height, { inversionAttempts: 'attemptBoth' });
+        return found ? found.data : null;
+    }
+
+    async function detect(source, canvas) {
+        if ('BarcodeDetector' in window) {
+            try {
+                const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
+                const codes = await detector.detect(source);
+                if (codes.length) return codes[0].rawValue;
+            } catch (e) {
+                // fall back to jsQR
+            }
+        }
+        return decodePixels(canvas);
+    }
+
+    function onQrText(text) {
+        if (!/^X-HM:\/\//i.test(text)) {
+            message(t('pair.not_homekit_qr'), 'error');
+            return false;
+        }
+        stopCamera();
+        $('qrtext').value = text;
+        showTab(false);
+        acceptInput(text);
+        return true;
+    }
+
+    async function startCamera() {
+        if (stream || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+        } catch (error) {
+            // No camera access in this view: the photo and text options remain.
+            stream = null;
+            return;
+        }
+        const video = $('camera');
+        video.srcObject = stream;
+        video.classList.remove('g4-hidden');
+        await video.play().catch(() => undefined);
+        scanning = true;
+        const canvas = $('frame');
+        const tick = async () => {
+            if (!scanning) return;
+            if (video.readyState >= 2) {
+                const scale = Math.min(1, 640 / video.videoWidth);
+                canvas.width = Math.round(video.videoWidth * scale);
+                canvas.height = Math.round(video.videoHeight * scale);
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                const text = await detect(canvas, canvas);
+                if (text && onQrText(text)) return;
+            }
+            setTimeout(tick, 250);
+        };
+        tick();
+    }
+
+    function stopCamera() {
+        scanning = false;
+        if (stream) stream.getTracks().forEach((track) => track.stop());
+        stream = null;
+        $('camera').classList.add('g4-hidden');
+    }
+
+    $('photo').addEventListener('change', () => {
+        const file = $('photo').files && $('photo').files[0];
+        if (!file) return;
+        const image = new Image();
+        image.onload = async () => {
+            const canvas = $('frame');
+            const scale = Math.min(1, 1600 / Math.max(image.width, image.height));
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(image.src);
+            const text = await detect(canvas, canvas);
+            if (!text) message(t('pair.qr_not_found'), 'error');
+            else onQrText(text);
+        };
+        image.src = URL.createObjectURL(file);
+    });
+
+    $('qrtext').addEventListener('change', () => {
+        const text = $('qrtext').value.trim();
+        if (text) onQrText(text);
+    });
+
+    // ---- pair ----
+
+    $('pair').addEventListener('click', async () => {
+        $('pair').disabled = true;
+        message(t('pair.pairing'));
+        Homey.showLoadingOverlay();
+        try {
+            const device = await Homey.emit('pair', { id: selectedId, code: setupCode });
+            await Homey.createDevice(device);
+            Homey.done();
+        } catch (error) {
+            Homey.hideLoadingOverlay();
+            message(error.message || String(error), 'error');
+            updateButton();
+            loadDevices();
+        }
+    });
+
+    Homey.setTitle(t('pair.title'));
+    loadDevices();
+    setInterval(() => {
+        if (!$('pair').disabled || devices.length === 0) loadDevices();
+    }, 5000);
+})();
+</script>

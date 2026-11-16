@@ -1,0 +1,145 @@
+{
+    "triggers": [
+        {
+            "id": "doorbell_pressed",
+            "title": {
+                "en": "Someone rang the doorbell",
+                "nl": "Er is aangebeld"
+            },
+            "tokens": [
+                {
+                    "name": "snapshot",
+                    "type": "image",
+                    "title": {
+                        "en": "Snapshot",
+                        "nl": "Momentopname"
+                    }
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "id": "take_snapshot",
+            "title": {
+                "en": "Take a snapshot",
+                "nl": "Maak een momentopname"
+            },
+            "tokens": [
+                {
+                    "name": "snapshot",
+                    "type": "image",
+                    "title": {
+                        "en": "Snapshot",
+                        "nl": "Momentopname"
+                    }
+                }
+            ],
+            "args": []
+        },
+        {
+            "id": "set_chime_volume",
+            "title": {
+                "en": "Set chime volume",
+                "nl": "Zet gongvolume"
+            },
+            "titleFormatted": {
+                "en": "Set chime volume to [[volume]]%",
+                "nl": "Zet gongvolume op [[volume]]%"
+            },
+            "args": [
+                {
+                    "type": "range",
+                    "name": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "label": "%",
+                    "labelDecimals": 0
+                }
+            ]
+        },
+        {
+            "id": "set_chime_enabled",
+            "title": {
+                "en": "Turn the chime on or off",
+                "nl": "Zet de gong aan of uit"
+            },
+            "titleFormatted": {
+                "en": "Turn the chime [[state]]",
+                "nl": "Zet de gong [[state]]"
+            },
+            "args": [
+                {
+                    "type": "dropdown",
+                    "name": "state",
+                    "values": [
+                        {
+                            "id": "on",
+                            "label": {
+                                "en": "on",
+                                "nl": "aan"
+                            }
+                        },
+                        {
+                            "id": "off",
+                            "label": {
+                                "en": "off",
+                                "nl": "uit"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "set_camera_enabled",
+            "title": {
+                "en": "Turn the camera on or off",
+                "nl": "Zet de camera aan of uit"
+            },
+            "titleFormatted": {
+                "en": "Turn the camera [[state]]",
+                "nl": "Zet de camera [[state]]"
+            },
+            "hint": {
+                "en": "With the camera off there is no live view or snapshot (privacy mode). Doorbell presses still come through.",
+                "nl": "Met de camera uit is er geen live beeld of momentopname (privacymodus). Aanbellen komt nog wel door."
+            },
+            "args": [
+                {
+                    "type": "dropdown",
+                    "name": "state",
+                    "values": [
+                        {
+                            "id": "on",
+                            "label": {
+                                "en": "on",
+                                "nl": "aan"
+                            }
+                        },
+                        {
+                            "id": "off",
+                            "label": {
+                                "en": "off",
+                                "nl": "uit"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "identify",
+            "title": {
+                "en": "Make the doorbell beep",
+                "nl": "Laat de deurbel piepen"
+            },
+            "hint": {
+                "en": "HomeKit's identify: the doorbell beeps or flashes once so you can find it.",
+                "nl": "HomeKit-identificatie: de deurbel piept of knippert \u00e9\u00e9n keer zodat je hem kunt vinden."
+            },
+            "args": []
+        }
+    ]
+}

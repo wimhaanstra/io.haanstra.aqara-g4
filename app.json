@@ -1,0 +1,460 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.sortedbits.aqarag4",
+  "version": "1.0.0",
+  "compatibility": ">=12.12.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Aqara G4 Doorbell",
+    "nl": "Aqara G4 Deurbel"
+  },
+  "description": {
+    "en": "See who's at the door, the moment they ring",
+    "nl": "Zie wie er aanbelt, op het moment dat het gebeurt"
+  },
+  "tags": {
+    "en": [
+      "aqara",
+      "g4",
+      "doorbell",
+      "video doorbell",
+      "camera",
+      "homekit",
+      "intercom"
+    ],
+    "nl": [
+      "aqara",
+      "g4",
+      "deurbel",
+      "videodeurbel",
+      "camera",
+      "homekit",
+      "intercom"
+    ]
+  },
+  "category": [
+    "security"
+  ],
+  "brandColor": "#7A5534",
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Wim Haanstra",
+    "email": "wim@x256.nl"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "doorbell_pressed",
+        "title": {
+          "en": "Someone rang the doorbell",
+          "nl": "Er is aangebeld"
+        },
+        "tokens": [
+          {
+            "name": "snapshot",
+            "type": "image",
+            "title": {
+              "en": "Snapshot",
+              "nl": "Momentopname"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "take_snapshot",
+        "title": {
+          "en": "Take a snapshot",
+          "nl": "Maak een momentopname"
+        },
+        "tokens": [
+          {
+            "name": "snapshot",
+            "type": "image",
+            "title": {
+              "en": "Snapshot",
+              "nl": "Momentopname"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          }
+        ]
+      },
+      {
+        "id": "set_chime_volume",
+        "title": {
+          "en": "Set chime volume",
+          "nl": "Zet gongvolume"
+        },
+        "titleFormatted": {
+          "en": "Set chime volume to [[volume]]%",
+          "nl": "Zet gongvolume op [[volume]]%"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          },
+          {
+            "type": "range",
+            "name": "volume",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "labelDecimals": 0
+          }
+        ]
+      },
+      {
+        "id": "set_chime_enabled",
+        "title": {
+          "en": "Turn the chime on or off",
+          "nl": "Zet de gong aan of uit"
+        },
+        "titleFormatted": {
+          "en": "Turn the chime [[state]]",
+          "nl": "Zet de gong [[state]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          },
+          {
+            "type": "dropdown",
+            "name": "state",
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "on",
+                  "nl": "aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "off",
+                  "nl": "uit"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_camera_enabled",
+        "title": {
+          "en": "Turn the camera on or off",
+          "nl": "Zet de camera aan of uit"
+        },
+        "titleFormatted": {
+          "en": "Turn the camera [[state]]",
+          "nl": "Zet de camera [[state]]"
+        },
+        "hint": {
+          "en": "With the camera off there is no live view or snapshot (privacy mode). Doorbell presses still come through.",
+          "nl": "Met de camera uit is er geen live beeld of momentopname (privacymodus). Aanbellen komt nog wel door."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          },
+          {
+            "type": "dropdown",
+            "name": "state",
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "on",
+                  "nl": "aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "off",
+                  "nl": "uit"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "identify",
+        "title": {
+          "en": "Make the doorbell beep",
+          "nl": "Laat de deurbel piepen"
+        },
+        "hint": {
+          "en": "HomeKit's identify: the doorbell beeps or flashes once so you can find it.",
+          "nl": "HomeKit-identificatie: de deurbel piept of knippert één keer zodat je hem kunt vinden."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=doorbell"
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Aqara G4 Doorbell",
+        "nl": "Aqara G4 Deurbel"
+      },
+      "class": "doorbell",
+      "capabilities": [
+        "alarm_motion"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "discovery": "hap",
+      "images": {
+        "small": "/drivers/doorbell/assets/images/small.png",
+        "large": "/drivers/doorbell/assets/images/large.png",
+        "xlarge": "/drivers/doorbell/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "setup"
+        }
+      ],
+      "id": "doorbell",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Video",
+            "nl": "Video"
+          },
+          "children": [
+            {
+              "id": "video_quality",
+              "type": "dropdown",
+              "label": {
+                "en": "Live video quality",
+                "nl": "Kwaliteit live beeld"
+              },
+              "hint": {
+                "en": "Lower quality starts faster and uses less Wi-Fi and processor time on Homey.",
+                "nl": "Lagere kwaliteit start sneller en gebruikt minder wifi en processortijd op Homey."
+              },
+              "value": "normal",
+              "values": [
+                {
+                  "id": "high",
+                  "label": {
+                    "en": "High (1080p)",
+                    "nl": "Hoog (1080p)"
+                  }
+                },
+                {
+                  "id": "normal",
+                  "label": {
+                    "en": "Normal (720p)",
+                    "nl": "Normaal (720p)"
+                  }
+                },
+                {
+                  "id": "low",
+                  "label": {
+                    "en": "Low (360p)",
+                    "nl": "Laag (360p)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection",
+            "nl": "Verbinding"
+          },
+          "children": [
+            {
+              "id": "address",
+              "type": "label",
+              "label": {
+                "en": "Address",
+                "nl": "Adres"
+              },
+              "value": ""
+            },
+            {
+              "id": "model",
+              "type": "label",
+              "label": {
+                "en": "Model",
+                "nl": "Model"
+              },
+              "value": ""
+            },
+            {
+              "id": "firmware",
+              "type": "label",
+              "label": {
+                "en": "Firmware",
+                "nl": "Firmware"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "camera_enabled": {
+      "type": "boolean",
+      "title": {
+        "en": "Camera",
+        "nl": "Camera"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "insights": false
+    },
+    "chime_enabled": {
+      "type": "boolean",
+      "title": {
+        "en": "Chime",
+        "nl": "Gong"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "insights": false
+    },
+    "chime_volume": {
+      "type": "number",
+      "title": {
+        "en": "Chime volume",
+        "nl": "Gongvolume"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "slider",
+      "insights": false,
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "units": {
+        "en": "%",
+        "nl": "%"
+      },
+      "decimals": 2
+    },
+    "microphone_enabled": {
+      "type": "boolean",
+      "title": {
+        "en": "Microphone",
+        "nl": "Microfoon"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "insights": false
+    },
+    "night_vision": {
+      "type": "boolean",
+      "title": {
+        "en": "Night vision",
+        "nl": "Nachtzicht"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "insights": false
+    },
+    "speaker_volume": {
+      "type": "number",
+      "title": {
+        "en": "Speaker volume",
+        "nl": "Luidsprekervolume"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "slider",
+      "insights": false,
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "units": {
+        "en": "%",
+        "nl": "%"
+      },
+      "decimals": 2
+    },
+    "status_light": {
+      "type": "boolean",
+      "title": {
+        "en": "Status light",
+        "nl": "Statuslampje"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "insights": false
+    }
+  },
+  "discovery": {
+    "hap": {
+      "type": "mdns-sd",
+      "mdns-sd": {
+        "name": "hap",
+        "protocol": "tcp"
+      },
+      "id": "{{txt.id}}",
+      "conditions": [
+        [
+          {
+            "field": "txt.ci",
+            "match": {
+              "type": "regex",
+              "value": "^(17|18)$"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

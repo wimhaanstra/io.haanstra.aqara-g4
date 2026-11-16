@@ -1,0 +1,83 @@
+[
+    {
+        "type": "group",
+        "label": {
+            "en": "Video",
+            "nl": "Video"
+        },
+        "children": [
+            {
+                "id": "video_quality",
+                "type": "dropdown",
+                "label": {
+                    "en": "Live video quality",
+                    "nl": "Kwaliteit live beeld"
+                },
+                "hint": {
+                    "en": "Lower quality starts faster and uses less Wi-Fi and processor time on Homey.",
+                    "nl": "Lagere kwaliteit start sneller en gebruikt minder wifi en processortijd op Homey."
+                },
+                "value": "normal",
+                "values": [
+                    {
+                        "id": "high",
+                        "label": {
+                            "en": "High (1080p)",
+                            "nl": "Hoog (1080p)"
+                        }
+                    },
+                    {
+                        "id": "normal",
+                        "label": {
+                            "en": "Normal (720p)",
+                            "nl": "Normaal (720p)"
+                        }
+                    },
+                    {
+                        "id": "low",
+                        "label": {
+                            "en": "Low (360p)",
+                            "nl": "Laag (360p)"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "group",
+        "label": {
+            "en": "Connection",
+            "nl": "Verbinding"
+        },
+        "children": [
+            {
+                "id": "address",
+                "type": "label",
+                "label": {
+                    "en": "Address",
+                    "nl": "Adres"
+                },
+                "value": ""
+            },
+            {
+                "id": "model",
+                "type": "label",
+                "label": {
+                    "en": "Model",
+                    "nl": "Model"
+                },
+                "value": ""
+            },
+            {
+                "id": "firmware",
+                "type": "label",
+                "label": {
+                    "en": "Firmware",
+                    "nl": "Firmware"
+                },
+                "value": ""
+            }
+        ]
+    }
+]

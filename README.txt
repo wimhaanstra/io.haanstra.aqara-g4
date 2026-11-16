@@ -1,0 +1,3 @@
+See who is at your door the moment they ring. The Aqara G4 connects to Homey directly over your local network, so a press on the doorbell starts your Flows straight away, complete with a snapshot of your visitor. Watch the live picture on your phone, in the Homey web app or on a dashboard, on as many screens at once as you like.
+
+Motion shows up in Homey too, and the chime and its volume, night vision, the status light and the camera itself can be controlled from Homey, all without the Aqara cloud. The doorbell can be connected to only one HomeKit controller, so remove it from Apple Home or other HomeKit apps first. Then add it in Homey with the HomeKit setup code, or simply scan the QR code on the doorbell.

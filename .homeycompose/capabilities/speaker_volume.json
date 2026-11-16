@@ -1,0 +1,19 @@
+{
+    "type": "number",
+    "title": {
+        "en": "Speaker volume",
+        "nl": "Luidsprekervolume"
+    },
+    "getable": true,
+    "setable": true,
+    "uiComponent": "slider",
+    "insights": false,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "units": {
+        "en": "%",
+        "nl": "%"
+    },
+    "decimals": 2
+}

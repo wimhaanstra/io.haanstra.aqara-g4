@@ -1,0 +1,30 @@
+{
+    "pair": {
+        "title": "Add your Aqara G4",
+        "intro": "Homey connects to the doorbell over HomeKit on your local network. The doorbell can be connected to only one HomeKit controller, so remove it from Apple Home or the HomeKit Controller app first.",
+        "choose_device": "1. Choose the doorbell",
+        "no_devices": "No HomeKit doorbell found yet. Make sure it is powered and on the same network as Homey. This list refreshes automatically.",
+        "device_paired": "Already connected to another HomeKit controller. Remove it there, or reset its HomeKit pairing in the Aqara Home app.",
+        "setup_code": "2. Enter the HomeKit setup code",
+        "type_code": "Type code",
+        "scan_qr": "Scan QR code",
+        "code_hint": "The 8-digit code on the doorbell, the back of the manual or the box.",
+        "scan_hint": "Point the camera at the HomeKit QR code. If the camera doesn't open, take a photo of the code instead.",
+        "photo": "Take or choose a photo",
+        "qr_ok": "QR code read. The matching doorbell is selected.",
+        "qr_not_found": "No QR code found in that photo. Try again closer and in good light.",
+        "not_homekit_qr": "That is not a HomeKit QR code. Look for the code next to the HomeKit logo.",
+        "pair": "Connect",
+        "pairing": "Connecting to the doorbell… this can take up to 30 seconds.",
+        "not_found": "The doorbell is no longer visible on the network. Check that it is powered and try again.",
+        "already_paired": "This doorbell is already connected to another HomeKit controller. Remove it there first, or reset its HomeKit pairing in the Aqara Home app.",
+        "wrong_code": "The setup code is not correct. Check the code and try again."
+    },
+    "device": {
+        "live": "Live",
+        "snapshot": "Snapshot",
+        "unreachable": "The doorbell can't be reached. Check its power and Wi-Fi.",
+        "no_camera": "This doorbell does not offer a camera stream.",
+        "setting_unavailable": "This doorbell doesn't offer that setting, or it isn't connected yet."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "type": "boolean",
+    "title": {
+        "en": "Status light",
+        "nl": "Statuslampje"
+    },
+    "getable": true,
+    "setable": true,
+    "uiComponent": "toggle",
+    "insights": false
+}

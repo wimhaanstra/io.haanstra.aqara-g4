@@ -1,0 +1,19 @@
+{
+  "type": "mdns-sd",
+  "mdns-sd": {
+    "name": "hap",
+    "protocol": "tcp"
+  },
+  "id": "{{txt.id}}",
+  "conditions": [
+    [
+      {
+        "field": "txt.ci",
+        "match": {
+          "type": "regex",
+          "value": "^(17|18)$"
+        }
+      }
+    ]
+  ]
+}

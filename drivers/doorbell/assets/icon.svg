@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960" width="960" height="960" fill="none" stroke="#000" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Aqara G4 doorbell turned slightly to the right, like Homey's own device icons: front face plus a thin strip of the right side -->
+  <rect x="280" y="40" width="350" height="880" rx="72"/>
+  <path d="M 600 42 Q 690 46 690 124 L 690 836 Q 690 914 600 918"/>
+  <ellipse cx="455" cy="280" rx="122" ry="130"/>
+  <circle cx="455" cy="262" r="46" stroke-width="16"/>
+  <circle cx="455" cy="262" r="14" fill="#000" stroke="none"/>
+  <circle cx="455" cy="360" r="13" fill="#000" stroke="none"/>
+  <ellipse cx="455" cy="680" rx="122" ry="130"/>
+  <g stroke-width="16">
+    <path d="M 411 712 L 411 670 A 44 46 0 0 1 499 670 L 499 712 L 517 730 L 393 730 Z"/>
+    <path d="M 455 618 L 455 624"/>
+    <path d="M 437 748 Q 455 764 473 748"/>
+  </g>
+</svg>

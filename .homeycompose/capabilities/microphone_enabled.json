@@ -1,0 +1,11 @@
+{
+    "type": "boolean",
+    "title": {
+        "en": "Microphone",
+        "nl": "Microfoon"
+    },
+    "getable": true,
+    "setable": true,
+    "uiComponent": "toggle",
+    "insights": false
+}

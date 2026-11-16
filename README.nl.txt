@@ -1,0 +1,3 @@
+Zie wie er voor de deur staat zodra er wordt aangebeld. De Aqara G4 verbindt rechtstreeks via je lokale netwerk met Homey, dus een druk op de deurbel start meteen je Flows, inclusief een momentopname van je bezoeker. Bekijk het live beeld op je telefoon, in de Homey-webapp of op een dashboard, op zoveel schermen tegelijk als je wilt.
+
+Ook beweging zie je in Homey, en de gong en het volume, nachtzicht, het statuslampje en de camera zelf bedien je vanuit Homey, allemaal zonder de Aqara-cloud. De deurbel kan maar met één HomeKit-controller verbonden zijn, dus verwijder hem eerst uit Apple Woning of andere HomeKit-apps. Voeg hem daarna toe in Homey met de HomeKit-instelcode, of scan gewoon de QR-code op de deurbel.

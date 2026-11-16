@@ -1,0 +1,130 @@
+# yaml-language-server: $schema=https://wimhaanstra.github.io/noodge/schema/v1/noodge.schema.json
+version: 1
+name: Aqara G4 for Homey
+
+groups:
+  - prefix: spike
+    title: Doorbell spike (runs on this computer)
+    description: |
+      Talk to the G4 straight from this computer over HomeKit, to prove pairing,
+      events and video work before running anything on Homey. The doorbell must
+      not be paired with another HomeKit controller while you pair here.
+  - prefix: app
+    title: Homey app
+    description: Build, test and run the Homey app.
+
+commands:
+  spike:discover:
+    description: |
+      List the HomeKit accessories on the network with their address, HAP id,
+      category (18 = video doorbell) and whether they are ready to pair.
+    steps:
+      - npx tsx tools/discover.ts
+    output: One block per accessory on stdout.
+
+  spike:pair:
+    description: |
+      Pair this computer with the doorbell as a HomeKit controller. Give the
+      8-digit setup code or the text of the HomeKit QR code (X-HM://...).
+      With a QR code the right doorbell is picked automatically.
+    params:
+      - name: code
+        flag: --code
+        required: true
+        description: Setup code (123-45-678) or QR payload (X-HM://...).
+      - name: host
+        flag: --host
+        description: Skip discovery and use this IP address.
+      - name: port
+        flag: --port
+        description: HAP port, needed with --host.
+    steps:
+      - npx tsx tools/pair.ts --code {{code}} {{flag host}} {{flag port}}
+    output: The pairing keys in tools/.data/pairing.json (keep this file private).
+
+  spike:dump:
+    description: |
+      Print every service and characteristic of the paired doorbell, and decode
+      what video, audio and SRTP settings its camera offers.
+    steps:
+      - npx tsx tools/dump.ts
+    output: A readable dump on stdout and tools/.data/accessories.json.
+
+  spike:events:
+    description: |
+      Subscribe to doorbell presses, motion, battery and streaming status and log
+      them as they happen. Runs until you press Ctrl+C.
+    steps:
+      - npx tsx tools/events.ts
+    output: One line per event on stdout.
+
+  spike:snapshot:
+    description: Save a JPEG snapshot from the doorbell.
+    steps:
+      - npx tsx tools/snapshot.ts
+    output: tools/.data/snapshot.jpg
+
+  spike:record:
+    description: |
+      Start a live stream, decrypt it and write raw H.264. Proves that video
+      reaches this machine over UDP. Play the result with
+      "ffplay -f h264 tools/.data/out.h264".
+    params:
+      - name: seconds
+        flag: --seconds
+        type: int
+        default: 10
+        description: How long to record.
+      - name: max_height
+        flag: --max-height
+        type: int
+        default: 1080
+        description: Highest resolution to request.
+    steps:
+      - npx tsx tools/record.ts --seconds {{seconds}} --max-height {{max_height}}
+    output: tools/.data/out.h264 (video) and tools/.data/video.rtp (raw packets for test fixtures).
+
+  spike:unpair:
+    description: |
+      Remove this computer's pairing from the doorbell so the Homey app can pair
+      with it.
+    confirm: Remove the HomeKit pairing between this computer and the doorbell?
+    steps:
+      - npx tsx tools/unpair.ts
+    output: The doorbell is unpaired and tools/.data/pairing.json is deleted.
+
+  app:test:
+    description: Run the unit tests (TLV8, setup codes, SRTP, HTTP parsing, pairing against a fake accessory).
+    steps:
+      - npx jest
+    output: Jest results.
+
+  app:pair-view:
+    description: |
+      Regenerate drivers/doorbell/pair/setup.html from tools/pair-view/setup.html,
+      with the jsQR decoder inlined so QR scanning works offline.
+    steps:
+      - npx tsx tools/build-pair-view.ts
+    output: drivers/doorbell/pair/setup.html
+
+  app:build:
+    description: Type-check and compile the app.
+    steps:
+      - npx tsx tools/build-pair-view.ts
+      - npx tsc --noEmit
+      - homey app build
+    output: The compiled app in .homeybuild/.
+
+  app:validate:
+    description: Validate the app manifest for publishing.
+    steps:
+      - homey app validate --level publish
+    output: Validation results.
+
+  app:run:
+    description: |
+      Run the app on your Homey Pro with live logs. This is also the test that
+      UDP video from the doorbell reaches the app container.
+    steps:
+      - homey app run --remote
+    output: App logs until you stop it.

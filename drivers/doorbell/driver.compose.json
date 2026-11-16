@@ -1,0 +1,21 @@
+{
+    "name": {
+        "en": "Aqara G4 Doorbell",
+        "nl": "Aqara G4 Deurbel"
+    },
+    "class": "doorbell",
+    "capabilities": ["alarm_motion"],
+    "platforms": ["local"],
+    "connectivity": ["lan"],
+    "discovery": "hap",
+    "images": {
+        "small": "{{driverAssetsPath}}/images/small.png",
+        "large": "{{driverAssetsPath}}/images/large.png",
+        "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+    },
+    "pair": [
+        {
+            "id": "setup"
+        }
+    ]
+}

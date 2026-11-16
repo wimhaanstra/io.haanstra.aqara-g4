@@ -1,0 +1,13 @@
+# Secrets and local data: never upload to Homey or the App Store
+.env
+.env.*
+tools/
+tests/
+*.h264
+*.rtp
+noodge.yaml
+jest.config.js
+tsconfig.eslint.json
+.eslintrc.json
+.prettierrc
+README.md
