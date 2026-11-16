@@ -90,7 +90,7 @@ noodge spike:unpair                        # free it again for Homey
 
 ### Store artwork
 
-The app and driver images were generated with OpenAI's image API (`tools/store-art.ts`, prompts included) and cropped to Homey's sizes. The sources are in `tools/store-art/`. The icons are hand-drawn SVGs: the app icon follows `tools/store-art/icon-concept.png`. The generator reads `OPENAI_API_KEY` from `.env`, which is git-ignored and excluded from the app package by `.homeyignore`.
+The app and driver images were generated with OpenAI's image API (`tools/store-art.ts`, prompts included) and cropped to Homey's sizes. The sources are in `tools/store-art/`. The icons are hand-drawn SVGs: the app icon is a "G4" glyph, and the device icon follows `tools/store-art/icon-concept.png`, turned slightly to the right like Homey's own device icons. The generator reads `OPENAI_API_KEY` from `.env`, which is git-ignored and excluded from the app package by `.homeyignore`.
 
 ## Verified on hardware (Aqara G4, Homey Self-Hosted Server 13.5.3)
 
