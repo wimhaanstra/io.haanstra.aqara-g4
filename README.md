@@ -13,6 +13,19 @@ Audio is not included yet: the doorbell sends AAC-ELD, which has to be converted
 
 Requires Homey Pro (2023 or later), Homey Pro mini or Homey Self-Hosted Server, version 12.12.0 or newer.
 
+## Why this app
+
+The G4 can already be reached from Homey in two other ways, but neither gives you the doorbell's camera:
+
+| | This app | Official Aqara app | HomeKit Controller app |
+| --- | --- | --- | --- |
+| Supports the G4 | Yes | No | Yes, as a generic HomeKit accessory |
+| Live video in Homey, the web app and dashboards | Yes, on any number of screens | No | No |
+
+On top of that, this app is built around the doorbell: the press Flow carries a snapshot of the visitor, the chime, volumes, night vision, status light and camera are device controls with Flow cards, and pairing works with the setup code or by scanning the QR code. Everything stays on your local network.
+
+This app speaks HomeKit to the doorbell itself, including the encrypted camera stream that generic HomeKit controllers leave out. It passes the video to Homey's own streaming service once, so watching on several screens doesn't strain the app or Homey.
+
 ## Pairing
 
 A HomeKit accessory accepts only one controller. Before adding the doorbell in Homey, remove it from Apple Home or any other HomeKit app.
@@ -98,3 +111,7 @@ The app and driver images were generated with OpenAI's image API (`tools/store-a
 - Video is H.264 Main (`4d0033` at 1080p) at about 20 fps. The G4 sends a keyframe about 0.2 s after an RTCP PLI.
 - The G4 rejects HAP write-response on SetupEndpoints (`-70405`), so the app writes and then reads.
 - UDP from the doorbell reaches the app on Homey's LAN IP, and Homey's go2rtc reaches the app's RTSP port there.
+
+## License
+
+GPL-3.0. See [LICENSE](LICENSE).

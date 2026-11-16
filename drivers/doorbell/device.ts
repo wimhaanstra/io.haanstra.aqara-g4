@@ -255,10 +255,12 @@ class DoorbellDevice extends Homey.Device {
         this.ringSnapshot = this.fetchSnapshot();
         this.ringSnapshot.then(() => this.ringImage?.update()).catch((error) => this.error('Ring snapshot failed:', error.message));
 
-        this.homey.flow
-            .getDeviceTriggerCard('doorbell_pressed')
-            .trigger(this, { snapshot: this.ringImage })
-            .catch(this.error);
+        const card = this.homey.flow.getDeviceTriggerCard('doorbell_pressed');
+        card.trigger(this, { snapshot: this.ringImage })
+            .then(() => card.getArgumentValues(this))
+            // getArgumentValues only counts enabled Flows, so 0 usually means the Flow is switched off.
+            .then((flows) => this.log(`"Doorbell pressed" trigger sent; ${flows.length} enabled Flow(s) use it for this doorbell`))
+            .catch((error) => this.error('Triggering "Doorbell pressed" failed:', error));
     }
 
     // ---- images ----

@@ -11,3 +11,5 @@ tsconfig.eslint.json
 .eslintrc.json
 .prettierrc
 README.md
+docs/
+LICENSE

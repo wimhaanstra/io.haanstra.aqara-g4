@@ -3,12 +3,22 @@
     "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
-        "types": ["node", "jest", "homey"],
+        "types": [
+            "node",
+            "jest",
+            "homey"
+        ],
         "allowJs": true,
         "outDir": ".homeybuild/",
         "noImplicitAny": false,
         "esModuleInterop": true,
         "skipLibCheck": true
     },
-    "exclude": ["node_modules", ".homeybuild", "tests", "tools"]
+    "exclude": [
+        "node_modules",
+        ".homeybuild",
+        "tests",
+        "tools",
+        "jest.config.js"
+    ]
 }
